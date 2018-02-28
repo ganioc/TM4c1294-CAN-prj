@@ -1,0 +1,15 @@
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\arm\bin\armproc.dll" 
+
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\arm\bin\armlmiftdi.dll" 
+
+"D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Exe\gpio_jtag.out" 
+
+--plugin "D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\arm\bin\armbat.dll" 
+
+--device_macro "D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\arm\config\debugger\TexasInstruments\TM4C129.dmac" 
+
+--flash_loader "D:\Program Files (x86)\IAR Systems\Embedded Workbench 7.3\arm\config\flashloader\TexasInstruments\FlashTC4_NC.board" 
+
+
+
+
