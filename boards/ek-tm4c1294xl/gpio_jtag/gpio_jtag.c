@@ -68,7 +68,8 @@
 //
 //*****************************************************************************
 uint32_t g_ui32SysClock;
-
+extern uint32_t g_ui32MsgCount;
+extern bool g_bErrFlag;
 //*****************************************************************************
 //
 // The current mode of pins PC0, PC1, PC2, and PC3.  When zero, the pins
@@ -221,7 +222,7 @@ int
 main(void)
 {
     //uint32_t ui32Mode;
-
+  uint8_t data[8]={0xff , 0xee, 0xdd, 0xcc, 0xbb, 0xaa, 0x00, 0x99};
     //
     // Set the clocking to run directly from the crystal at 120MHz.
     //
@@ -254,7 +255,7 @@ main(void)
 
     // Init CAN0 
     InitCAN();
-    InitCANMsg();
+
     
     IntMasterEnable();
 
@@ -276,7 +277,7 @@ main(void)
     //
     UARTprintf("%d\n", g_ui32SysClock);
     
-    
+    InitCANMsg(0x0201, data, 3);
 
     //
     // Loop forever.  This loop simply exists to display on the UART the
@@ -291,8 +292,20 @@ main(void)
         //
         UARTprintf("-->\n");
         SimpleDelay();
-      
+        
         SendCANMsg();
-      
+        
+        if(g_bErrFlag)
+        {
+          UARTprintf(" error - cable connected?\n");
+        }
+        else
+        {
+          //
+          // If no errors then print the count of message sent
+          //
+          UARTprintf(" total count = %u\n", g_ui32MsgCount);
+        }
+        
     }
 }
