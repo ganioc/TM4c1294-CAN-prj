@@ -981,6 +981,9 @@
     <file>
       <name>$PROJ_DIR$\..\..\..\..\utils\uartstdio.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\drivers\yj_can.c</name>
+    </file>
   </group>
 </project>
 

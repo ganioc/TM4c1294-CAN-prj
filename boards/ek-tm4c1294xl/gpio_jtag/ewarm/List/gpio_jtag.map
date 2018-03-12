@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.50.1.10123/W32 for ARM                12/Mar/2018  11:39:28
+# IAR ELF Linker V7.50.1.10123/W32 for ARM                12/Mar/2018  15:39:46
 # Copyright 2007-2015 IAR Systems AB.
 #
 #    Output file  =  
@@ -13,6 +13,7 @@
 #        D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Obj\gpio_jtag.o
 #        D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Obj\startup_ewarm.o
 #        D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Obj\uartstdio.o
+#        D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Obj\yj_can.o
 #        --redirect _Printf=_PrintfTiny --redirect _Scanf=_ScanfSmall -o
 #        D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Exe\gpio_jtag.out
 #        --map
@@ -37,49 +38,62 @@ __SystemLibrary = DLib
 
 "A1":  place at start of [0x00000000-0x000fffff] { ro section .intvec };
 "P1":  place in [from 0x00000000 to 0x000fffff] { ro };
+"A2":  place at start of [0x20000000-0x2003ffff] { section VTABLE };
 "P2":  place in [from 0x20000000 to 0x2003ffff] { rw, block HEAP };
 
-  Section            Kind        Address   Size  Object
-  -------            ----        -------   ----  ------
-"A1":                                     0x200
-  .intvec            const    0x00000000  0x200  startup_ewarm.o [1]
-                            - 0x00000200  0x200
+  Section            Kind        Address    Size  Object
+  -------            ----        -------    ----  ------
+"A1":                                      0x200
+  .intvec            const    0x00000000   0x200  startup_ewarm.o [1]
+                            - 0x00000200   0x200
 
-"P1":                                     0xc8a
-  .text              ro code  0x00000200  0x49c  sysctl.o [4]
-  .text              ro code  0x0000069c  0x264  uartstdio.o [1]
-  .text              ro code  0x00000900   0x66  ABImemset.o [6]
-  .text              ro code  0x00000968  0x244  gpio_jtag.o [1]
-  .text              ro code  0x00000bac   0x98  buttons.o [1]
-  .text              ro code  0x00000c44   0x28  systick.o [4]
-  .text              ro code  0x00000c6c   0x10  interrupt.o [4]
-  .text              ro code  0x00000c7c   0xfe  gpio.o [4]
-  .text              ro code  0x00000d7c    0x8  cpu.o [4]
-  .text              ro code  0x00000d84   0x38  packbits_init_single.o [6]
-  .text              ro code  0x00000dbc   0x28  data_init.o [6]
-  .text              ro code  0x00000de4   0x22  fpinit_M.o [5]
-  .iar.init_table    const    0x00000e08   0x10  - Linker created -
-  .text              ro code  0x00000e18   0x1a  startup_ewarm.o [1]
-  .text              ro code  0x00000e32    0xc  cstartup_M.o [6]
-  .text              ro code  0x00000e40   0x1a  cmain.o [6]
-  .text              ro code  0x00000e5a    0x4  low_level_init.o [3]
-  .text              ro code  0x00000e5e    0x4  exit.o [3]
-  .text              ro code  0x00000e64    0xa  cexit.o [6]
-  .text              ro code  0x00000e70   0x14  exit.o [7]
-  .rodata            const    0x00000e84    0x0  packbits_init_single.o [6]
-  Initializer bytes  const    0x00000e84    0x6  <for P2-1>
-                            - 0x00000e8a  0xc8a
+"P1":                                     0x12d2
+  .text              ro code  0x00000200   0x4c4  sysctl.o [4]
+  .text              ro code  0x000006c4   0x328  can.o [4]
+  .text              ro code  0x000009ec    0xb0  interrupt.o [4]
+  .text              ro code  0x00000a9c     0x8  cpu.o [4]
+  .text              ro code  0x00000aa4   0x264  uartstdio.o [1]
+  .text              ro code  0x00000d08    0x66  ABImemset.o [6]
+  .text              ro code  0x00000d70   0x214  gpio_jtag.o [1]
+  .text              ro code  0x00000f84    0x60  buttons.o [1]
+  .text              ro code  0x00000fe4   0x178  yj_can.o [1]
+  .text              ro code  0x0000115c   0x214  gpio.o [4]
+  .text              ro code  0x00001370    0x40  zero_init3.o [6]
+  .text              ro code  0x000013b0    0x38  packbits_init_single.o [6]
+  .text              ro code  0x000013e8    0x28  data_init.o [6]
+  .text              ro code  0x00001410    0x22  fpinit_M.o [5]
+  .iar.init_table    const    0x00001434    0x28  - Linker created -
+  .text              ro code  0x0000145c    0x1a  startup_ewarm.o [1]
+  .text              ro code  0x00001476     0xc  cstartup_M.o [6]
+  .text              ro code  0x00001484    0x1a  cmain.o [6]
+  .text              ro code  0x0000149e     0x4  low_level_init.o [3]
+  .text              ro code  0x000014a2     0x4  exit.o [3]
+  .text              ro code  0x000014a8     0xa  cexit.o [6]
+  .text              ro code  0x000014b4    0x14  exit.o [7]
+  .rodata            const    0x000014c8     0x0  zero_init3.o [6]
+  .rodata            const    0x000014c8     0x0  packbits_init_single.o [6]
+  Initializer bytes  const    0x000014c8     0xa  <for P2-1>
+                            - 0x000014d2  0x12d2
 
-"P2", part 1 of 2:                         0x13
-  P2-1                        0x20000000   0x13  <Init block>
-    .bss             inited   0x20000000    0x8  gpio_jtag.o [1]
-    .bss             inited   0x20000008    0x8  uartstdio.o [1]
-    .data            inited   0x20000010    0x3  buttons.o [1]
-                            - 0x20000013   0x13
+"A2":                                      0x26c
+  VTABLE             zero     0x20000000   0x26c  interrupt.o [4]
+                            - 0x2000026c   0x26c
 
-"P2", part 2 of 2:                        0x100
-  .noinit            uninit   0x20000014  0x100  startup_ewarm.o [1]
-                            - 0x20000114  0x100
+"P2", part 1 of 3:                          0x27
+  P2-1                        0x2000026c    0x27  <Init block>
+    .data            inited   0x2000026c    0x24  yj_can.o [1]
+    .data            inited   0x20000290     0x3  buttons.o [1]
+                            - 0x20000293    0x27
+
+"P2", part 2 of 3:                         0x100
+  .noinit            uninit   0x20000294   0x100  startup_ewarm.o [1]
+                            - 0x20000394   0x100
+
+"P2", part 3 of 3:                          0x10
+  .bss               zero     0x20000394     0x8  uartstdio.o [1]
+  .bss               zero     0x2000039c     0x4  gpio_jtag.o [1]
+  .bss               zero     0x200003a0     0x4  gpio_jtag.o [1]
+                            - 0x200003a4    0x10
 
 
 *******************************************************************************
@@ -88,11 +102,16 @@ __SystemLibrary = DLib
 
           Address     Size
           -------     ----
+Zero (__iar_zero_init3)
+    2 destination ranges, total size 0x27c:
+          0x20000000  0x26c
+          0x20000394   0x10
+
 Copy/packbits (__iar_packbits_init_single3)
-    1 source range, total size 0x6 (31% of destination):
-          0x00000e84   0x6
-    1 destination range, total size 0x13:
-          0x20000000  0x13
+    1 source range, total size 0xa (25% of destination):
+          0x000014c8    0xa
+    1 destination range, total size 0x27:
+          0x2000026c   0x27
 
 
 
@@ -103,12 +122,13 @@ Copy/packbits (__iar_packbits_init_single3)
     Module                  ro code  ro data  rw data
     ------                  -------  -------  -------
 D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Obj: [1]
-    buttons.o                   152        1        3
-    gpio_jtag.o                 580        2        8
+    buttons.o                    96        1        3
+    gpio_jtag.o                 532                 8
     startup_ewarm.o              26      512      256
-    uartstdio.o                 612        3        8
+    uartstdio.o                 612                 8
+    yj_can.o                    376        9       36
     -------------------------------------------------
-    Total:                    1 370      518      275
+    Total:                    1 642      522      311
 
 command line: [2]
     -------------------------------------------------
@@ -121,13 +141,13 @@ dl7M_tln.a: [3]
     Total:                        8
 
 driverlib.a: [4]
+    can.o                       808
     cpu.o                         8
-    gpio.o                      254
-    interrupt.o                  16
-    sysctl.o                  1 180
-    systick.o                    40
+    gpio.o                      532
+    interrupt.o                 176               620
+    sysctl.o                  1 220
     -------------------------------------------------
-    Total:                    1 498
+    Total:                    2 744               620
 
 m7M_tls.a: [5]
     fpinit_M.o                   34
@@ -141,18 +161,19 @@ rt7M_tl.a: [6]
     cstartup_M.o                 12
     data_init.o                  40
     packbits_init_single.o       56
+    zero_init3.o                 64
     -------------------------------------------------
-    Total:                      246
+    Total:                      310
 
 shb_l.a: [7]
     exit.o                       20
     -------------------------------------------------
     Total:                       20
 
-    Gaps                         10        2
-    Linker created                        16
+    Gaps                          8        2
+    Linker created                        40
 -----------------------------------------------------
-    Grand Total:              3 186      536      275
+    Grand Total:              4 766      564      931
 
 
 *******************************************************************************
@@ -161,59 +182,87 @@ shb_l.a: [7]
 
 Entry                      Address   Size  Type      Object
 -----                      -------   ----  ----      ------
-.iar.init_table$$Base   0x00000e08          --   Gb  - Linker created -
-.iar.init_table$$Limit  0x00000e18          --   Gb  - Linker created -
-?main                   0x00000e41         Code  Gb  cmain.o [6]
-ButtonsInit             0x00000bff   0x36  Code  Gb  buttons.o [1]
-ButtonsPoll             0x00000bad   0x52  Code  Gb  buttons.o [1]
-CPUcpsie                0x00000d7d    0x8  Code  Gb  cpu.o [4]
-ConfigureUART           0x00000a41   0x40  Code  Gb  gpio_jtag.o [1]
-FaultISR                0x00000e2f    0x2  Code  Lc  startup_ewarm.o [1]
-GPIOPadConfigSet        0x00000c7d   0xfe  Code  Gb  gpio.o [4]
-IntDefaultHandler       0x00000e31    0x2  Code  Lc  startup_ewarm.o [1]
-IntMasterEnable         0x00000c6d    0x8  Code  Gb  interrupt.o [4]
-NmiSR                   0x00000e2d    0x2  Code  Lc  startup_ewarm.o [1]
-Region$$Table$$Base     0x00000e08          --   Gb  - Linker created -
-Region$$Table$$Limit    0x00000e18          --   Gb  - Linker created -
-ResetISR                0x00000e19    0xe  Code  Gb  startup_ewarm.o [1]
-SysCtlClockFreqSet      0x00000221  0x204  Code  Gb  sysctl.o [4]
-SysTickEnable           0x00000c45    0xc  Code  Gb  systick.o [4]
-SysTickIntEnable        0x00000c51    0xc  Code  Gb  systick.o [4]
-SysTickIntHandler       0x00000969   0xa8  Code  Gb  gpio_jtag.o [1]
-SysTickPeriodSet        0x00000c5d    0x8  Code  Gb  systick.o [4]
-UARTStdioConfig         0x0000069d   0x50  Code  Gb  uartstdio.o [1]
-UARTprintf              0x000008bf    0xe  Code  Gb  uartstdio.o [1]
-UARTvprintf             0x00000723  0x184  Code  Gb  uartstdio.o [1]
-UARTwrite               0x000006ed   0x36  Code  Gb  uartstdio.o [1]
+.iar.init_table$$Base   0x00001434          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x0000145c          --   Gb  - Linker created -
+?main                   0x00001485         Code  Gb  cmain.o [6]
+ButtonsPoll             0x00000f85   0x52  Code  Gb  buttons.o [1]
+CANBitRateSet           0x0000076d   0x60  Code  Gb  can.o [4]
+CANEnable               0x00000763    0xa  Code  Gb  can.o [4]
+CANInit                 0x0000071d   0x46  Code  Gb  can.o [4]
+CANIntClear             0x00000811   0x26  Code  Gb  can.o [4]
+CANIntEnable            0x000007e7    0x8  Code  Gb  can.o [4]
+CANIntHandler           0x00000ff3   0x38  Code  Gb  yj_can.o [1]
+CANIntRegister          0x000007cd   0x1a  Code  Gb  can.o [4]
+CANIntStatus            0x000007ef   0x22  Code  Gb  can.o [4]
+CANMessageSet           0x0000087d  0x150  Code  Gb  can.o [4]
+CANStatusGet            0x00000839   0x42  Code  Gb  can.o [4]
+CPUcpsie                0x00000a9d    0x8  Code  Gb  cpu.o [4]
+ConfigureUART           0x00000e49   0x40  Code  Gb  gpio_jtag.o [1]
+FaultISR                0x00001473    0x2  Code  Lc  startup_ewarm.o [1]
+GPIODirModeSet          0x0000115d   0x28  Code  Gb  gpio.o [4]
+GPIOPadConfigSet        0x00001185   0xfe  Code  Gb  gpio.o [4]
+GPIOPinConfigure        0x000012a1   0x38  Code  Gb  gpio.o [4]
+GPIOPinTypeCAN          0x00001283    0x4  Code  Gb  gpio.o [4]
+InitCAN                 0x0000102b   0x5a  Code  Gb  yj_can.o [1]
+InitCANMsg              0x00001085   0x1c  Code  Gb  yj_can.o [1]
+IntDefaultHandler       0x00001475    0x2  Code  Lc  startup_ewarm.o [1]
+IntEnable               0x00000a23   0x56  Code  Gb  interrupt.o [4]
+IntMasterEnable         0x000009ed    0x8  Code  Gb  interrupt.o [4]
+IntRegister             0x000009fd   0x26  Code  Gb  interrupt.o [4]
+NmiSR                   0x00001471    0x2  Code  Lc  startup_ewarm.o [1]
+Region$$Table$$Base     0x00001434          --   Gb  - Linker created -
+Region$$Table$$Limit    0x0000145c          --   Gb  - Linker created -
+ResetISR                0x0000145d    0xe  Code  Gb  startup_ewarm.o [1]
+SendCANMsg              0x000010a1   0x4a  Code  Gb  yj_can.o [1]
+SimpleDelay             0x00000fe5    0xe  Code  Gb  yj_can.o [1]
+SysCtlClockFreqSet      0x00000245  0x204  Code  Gb  sysctl.o [4]
+SysCtlDelay             0x0000023d    0x8  Code  Gb  sysctl.o [4]
+SysCtlPeripheralEnable  0x00000221    0x8  Code  Gb  sysctl.o [4]
+SysTickIntHandler       0x00000d71   0xa8  Code  Gb  gpio_jtag.o [1]
+UARTStdioConfig         0x00000aa5   0x50  Code  Gb  uartstdio.o [1]
+UARTprintf              0x00000cc7    0xe  Code  Gb  uartstdio.o [1]
+UARTvprintf             0x00000b2b  0x184  Code  Gb  uartstdio.o [1]
+UARTwrite               0x00000af5   0x36  Code  Gb  uartstdio.o [1]
+_CANIntNumberGet        0x000006c5   0x3e  Code  Lc  can.o [4]
 _SysCtlMemTimingGet     0x00000201   0x20  Code  Lc  sysctl.o [4]
-__aeabi_memset          0x00000901         Code  Gb  ABImemset.o [6]
-__cmain                 0x00000e41         Code  Gb  cmain.o [6]
-__exit                  0x00000e71   0x14  Code  Gb  exit.o [7]
-__iar_Memset            0x00000901         Code  Gb  ABImemset.o [6]
-__iar_Memset_word       0x00000909         Code  Gb  ABImemset.o [6]
-__iar_data_init3        0x00000dbd   0x28  Code  Gb  data_init.o [6]
-__iar_init_vfp          0x00000de5         Code  Gb  fpinit_M.o [5]
+__aeabi_memset          0x00000d09         Code  Gb  ABImemset.o [6]
+__cmain                 0x00001485         Code  Gb  cmain.o [6]
+__exit                  0x000014b5   0x14  Code  Gb  exit.o [7]
+__iar_Memset            0x00000d09         Code  Gb  ABImemset.o [6]
+__iar_Memset_word       0x00000d11         Code  Gb  ABImemset.o [6]
+__iar_data_init3        0x000013e9   0x28  Code  Gb  data_init.o [6]
+__iar_init_vfp          0x00001411         Code  Gb  fpinit_M.o [5]
 __iar_packbits_init_single3
-                        0x00000d85   0x38  Code  Gb  packbits_init_single.o [6]
-__iar_program_start     0x00000e33         Code  Gb  cstartup_M.o [6]
-__low_level_init        0x00000e5b    0x4  Code  Gb  low_level_init.o [3]
+                        0x000013b1   0x38  Code  Gb  packbits_init_single.o [6]
+__iar_program_start     0x00001477         Code  Gb  cstartup_M.o [6]
+__iar_zero_init3        0x00001371   0x40  Code  Gb  zero_init3.o [6]
+__low_level_init        0x0000149f    0x4  Code  Gb  low_level_init.o [3]
 __vector_table          0x00000000  0x200  Data  Gb  startup_ewarm.o [1]
-_call_main              0x00000e4d         Code  Gb  cmain.o [6]
-_exit                   0x00000e65         Code  Gb  cexit.o [6]
-_main                   0x00000e57         Code  Gb  cmain.o [6]
-exit                    0x00000e5f    0x4  Code  Gb  exit.o [3]
-g_pppui32XTALtoVCO      0x000004b4  0x1b0  Data  Lc  sysctl.o [4]
-g_pui32VCOFrequencies   0x00000694    0x8  Data  Lc  sysctl.o [4]
-g_pui32Xtals            0x00000448   0x6c  Data  Lc  sysctl.o [4]
-g_sXTALtoMEMTIM         0x00000664   0x30  Data  Lc  sysctl.o [4]
-g_ui32Base              0x2000000c    0x4  Data  Lc  uartstdio.o [1]
-g_ui32Mode              0x20000004    0x4  Data  Gb  gpio_jtag.o [1]
-g_ui32SysClock          0x20000000    0x4  Data  Gb  gpio_jtag.o [1]
-g_ui32UARTBase          0x000008e8    0xc  Data  Lc  uartstdio.o [1]
-g_ui32UARTPeriph        0x000008f4    0xc  Data  Lc  uartstdio.o [1]
-g_ui8ButtonStates       0x20000010    0x1  Data  Lc  buttons.o [1]
-main                    0x00000a81   0xac  Code  Gb  gpio_jtag.o [1]
-pui32Stack              0x20000014  0x100  Data  Lc  startup_ewarm.o [1]
+_call_main              0x00001491         Code  Gb  cmain.o [6]
+_exit                   0x000014a9         Code  Gb  cexit.o [6]
+_main                   0x0000149b         Code  Gb  cmain.o [6]
+exit                    0x000014a3    0x4  Code  Gb  exit.o [3]
+g_bErrFlag              0x2000026c    0x1  Data  Gb  yj_can.o [1]
+g_pfnRAMVectors         0x20000000  0x26c  Data  Lc  interrupt.o [4]
+g_pppui32XTALtoVCO      0x000004dc  0x1b0  Data  Lc  sysctl.o [4]
+g_pui32EnRegs           0x00000a88   0x14  Data  Lc  interrupt.o [4]
+g_pui32GPIOBaseAddrs    0x000012e0   0x90  Data  Lc  gpio.o [4]
+g_pui32VCOFrequencies   0x000006bc    0x8  Data  Lc  sysctl.o [4]
+g_pui32Xtals            0x00000470   0x6c  Data  Lc  sysctl.o [4]
+g_sXTALtoMEMTIM         0x0000068c   0x30  Data  Lc  sysctl.o [4]
+g_ui16CANBitValues      0x000009cc   0x20  Data  Lc  can.o [4]
+g_ui32Base              0x20000398    0x4  Data  Lc  uartstdio.o [1]
+g_ui32Mode              0x200003a0    0x4  Data  Gb  gpio_jtag.o [1]
+g_ui32MsgCount          0x20000284    0x4  Data  Gb  yj_can.o [1]
+g_ui32SysClock          0x2000039c    0x4  Data  Gb  gpio_jtag.o [1]
+g_ui32UARTBase          0x00000cf0    0xc  Data  Lc  uartstdio.o [1]
+g_ui32UARTPeriph        0x00000cfc    0xc  Data  Lc  uartstdio.o [1]
+g_ui8ButtonStates       0x20000290    0x1  Data  Lc  buttons.o [1]
+main                    0x00000e89   0x8c  Code  Gb  gpio_jtag.o [1]
+pui32Stack              0x20000294  0x100  Data  Lc  startup_ewarm.o [1]
+pui8MsgData             0x2000028c    0x4  Data  Gb  yj_can.o [1]
+sCANMessage             0x20000270   0x14  Data  Gb  yj_can.o [1]
+ui32MsgData             0x20000288    0x4  Data  Gb  yj_can.o [1]
 
 
 [1] = D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\ewarm\Obj
@@ -224,9 +273,9 @@ pui32Stack              0x20000014  0x100  Data  Lc  startup_ewarm.o [1]
 [6] = rt7M_tl.a
 [7] = shb_l.a
 
-  3 186 bytes of readonly  code memory
-    536 bytes of readonly  data memory
-    275 bytes of readwrite data memory
+  4 766 bytes of readonly  code memory
+    564 bytes of readonly  data memory
+    931 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

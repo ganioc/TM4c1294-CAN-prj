@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>1062692834</fileChecksum>
+  <fileChecksum>1927318200</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
@@ -54,6 +54,12 @@
       <file>$PROJ_DIR$\ewarm\Obj\gpio_jtag.o</file>
       <file>$PROJ_DIR$\ewarm\Obj\buttons.pbi</file>
       <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\inc\hw_can.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\can.h</file>
+      <file>$PROJ_DIR$\..\drivers\yj_can.h</file>
+      <file>$PROJ_DIR$\ewarm\Obj\yj_can.pbi</file>
+      <file>$PROJ_DIR$\ewarm\Obj\yj_can.o</file>
+      <file>$PROJ_DIR$\..\drivers\yj_can.c</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
@@ -79,7 +85,7 @@
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 2 33 28 45 35 44 0 5 4 3</file>
+          <file> 2 33 28 45 35 44 52 0 5 4 3</file>
         </tool>
       </inputs>
     </file>
@@ -117,11 +123,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 23 37 8 38 17 24 14 25 15 13 16 34 20 12 21 26 11 39 27 10 7 6 47 36 22 9</file>
+          <file> 23 37 8 38 7 47 17 24 14 25 50 13 6 36 34 20 12 21 26 11 39 27 10 15 16 9 22</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 9 13 15 7 47 36 6 16 34 17 20 8 12 24 21 37 26 14 11 38 39 25 27 23 10</file>
+          <file> 9 13 15 7 47 36 6 16 34 17 20 8 12 24 21 37 26 14 11 38 39 25 27 23 10 50</file>
         </tool>
       </inputs>
     </file>
@@ -150,6 +156,29 @@
           <file> 44</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\drivers\yj_can.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 51</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 52</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 26 13 20 34 49 39 15 16 9 48 8 37 14 23 7 6 47 36 50 22</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 50 9 13 15 7 47 36 6 16 34 48 20 8 49 37 26 14 39 23</file>
+        </tool>
+      </inputs>
     </file>
   </configuration>
 </project>

@@ -13,7 +13,7 @@ LMI_ResetMode=0x00000000
 LMIFTDIserialNo=0F0036B2
 LMIFTDIfoundProbes=
 [DebugChecksum]
-Checksum=404315542
+Checksum=457041414
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

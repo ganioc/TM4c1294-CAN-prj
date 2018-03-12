@@ -41,6 +41,8 @@
 #include "utils/uartstdio.h"
 #include "drivers/buttons.h"
 
+#include "drivers/yj_can.h"
+
 //*****************************************************************************
 //
 //! \addtogroup example_list
@@ -218,7 +220,7 @@ ConfigureUART(void)
 int
 main(void)
 {
-    uint32_t ui32Mode;
+    //uint32_t ui32Mode;
 
     //
     // Set the clocking to run directly from the crystal at 120MHz.
@@ -240,16 +242,20 @@ main(void)
     //
     // Initialize the button driver.
     //
-    ButtonsInit();
+    //ButtonsInit();
 
     //
     // Set up a SysTick Interrupt to handle polling and debouncing for our
     // buttons.
     //
-    SysTickPeriodSet(g_ui32SysClock / 100);
-    SysTickIntEnable();
-    SysTickEnable();
+    //SysTickPeriodSet(g_ui32SysClock / 100);
+    //SysTickIntEnable();
+    //SysTickEnable();
 
+    // Init CAN0 
+    InitCAN();
+    InitCANMsg();
+    
     IntMasterEnable();
 
     //
@@ -257,12 +263,6 @@ main(void)
     //
     ROM_GPIOPinTypeGPIOOutput(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1);
     ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0);
-
-    //
-    // Set the global and local indicator of pin mode to zero, meaning JTAG.
-    //
-    g_ui32Mode = 0;
-    ui32Mode = 0;
 
     //
     // Initialize the UART, clear the terminal, print banner.
@@ -274,7 +274,9 @@ main(void)
     //
     // Indicate that the pins start out as JTAG.
     //
-    UARTprintf("Pins are JTAG\n");
+    UARTprintf("%d\n", g_ui32SysClock);
+    
+    
 
     //
     // Loop forever.  This loop simply exists to display on the UART the
@@ -283,35 +285,14 @@ main(void)
     //
     while(1)
     {
-        //
-        // Wait until the pin mode changes.
-        //
-        while(g_ui32Mode == ui32Mode)
-        {
-        }
 
         //
-        // Save the new mode locally so that a subsequent pin mode change can
-        // be detected.
+        // Now wait 1 second before continuing
         //
-        ui32Mode = g_ui32Mode;
-
-        //
-        // See what the new pin mode was changed to.
-        //
-        if(ui32Mode == 0)
-        {
-            //
-            // Indicate that PC0-3 are currently JTAG pins.
-            //
-            UARTprintf("Pins are JTAG\n");
-        }
-        else
-        {
-            //
-            // Indicate that PC0-3 are currently GPIO pins.
-            //
-            UARTprintf("Pins are GPIO\n");
-        }
+        UARTprintf("-->\n");
+        SimpleDelay();
+      
+        SendCANMsg();
+      
     }
 }
