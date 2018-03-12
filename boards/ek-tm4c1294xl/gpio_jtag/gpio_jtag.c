@@ -70,6 +70,7 @@
 uint32_t g_ui32SysClock;
 extern uint32_t g_ui32MsgCount;
 extern bool g_bErrFlag;
+extern bool g_bRXFlag;
 //*****************************************************************************
 //
 // The current mode of pins PC0, PC1, PC2, and PC3.  When zero, the pins
@@ -99,86 +100,86 @@ __error__(char *pcFilename, uint32_t ui32Line)
 void
 SysTickIntHandler(void)
 {
-    uint8_t ui8Buttons;
-    uint8_t ui8ButtonsChanged;
-
+  uint8_t ui8Buttons;
+  uint8_t ui8ButtonsChanged;
+  
+  //
+  // Grab the current, debounced state of the buttons.
+  //
+  ui8Buttons = ButtonsPoll(&ui8ButtonsChanged, 0);
+  
+  //
+  // If the USR_SW1 button has been pressed, and was previously not pressed,
+  // start the process of changing the behavior of the JTAG pins.
+  //
+  if(BUTTON_PRESSED(USR_SW1, ui8Buttons, ui8ButtonsChanged))
+  {
     //
-    // Grab the current, debounced state of the buttons.
+    // Toggle the pin mode.
     //
-    ui8Buttons = ButtonsPoll(&ui8ButtonsChanged, 0);
-
+    g_ui32Mode ^= 1;
+    
     //
-    // If the USR_SW1 button has been pressed, and was previously not pressed,
-    // start the process of changing the behavior of the JTAG pins.
+    // See if the pins should be in JTAG or GPIO mode.
     //
-    if(BUTTON_PRESSED(USR_SW1, ui8Buttons, ui8ButtonsChanged))
+    if(g_ui32Mode == 0)
     {
-        //
-        // Toggle the pin mode.
-        //
-        g_ui32Mode ^= 1;
-
-        //
-        // See if the pins should be in JTAG or GPIO mode.
-        //
-        if(g_ui32Mode == 0)
-        {
-            //
-            // Change PC0-3 into hardware (i.e. JTAG) pins.
-            //
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x01;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x01;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x02;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x02;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x04;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x04;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x08;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x08;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x00;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = 0;
-
-            //
-            // Turn on the LED to indicate that the pins are in JTAG mode.
-            //
-            ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1,
-                             GPIO_PIN_0);
-        }
-        else
-        {
-            //
-            // Change PC0-3 into GPIO inputs.
-            //
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x01;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xfe;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x02;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xfd;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x04;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xfb;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x08;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xf7;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x00;
-            HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = 0;
-            ROM_GPIOPinTypeGPIOInput(GPIO_PORTC_BASE, (GPIO_PIN_0 | GPIO_PIN_1 |
-                                                       GPIO_PIN_2 |
-                                                       GPIO_PIN_3));
-
-            //
-            // Turn off the LED to indicate that the pins are in GPIO mode.
-            //
-            ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1,
-                             GPIO_PIN_1);
-        }
+      //
+      // Change PC0-3 into hardware (i.e. JTAG) pins.
+      //
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x01;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x01;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x02;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x02;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x04;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x04;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x08;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) |= 0x08;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x00;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = 0;
+      
+      //
+      // Turn on the LED to indicate that the pins are in JTAG mode.
+      //
+      ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1,
+                       GPIO_PIN_0);
     }
+    else
+    {
+      //
+      // Change PC0-3 into GPIO inputs.
+      //
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x01;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xfe;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x02;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xfd;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x04;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xfb;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x08;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_AFSEL) &= 0xf7;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_CR) = 0x00;
+      HWREG(GPIO_PORTC_BASE + GPIO_O_LOCK) = 0;
+      ROM_GPIOPinTypeGPIOInput(GPIO_PORTC_BASE, (GPIO_PIN_0 | GPIO_PIN_1 |
+                                                 GPIO_PIN_2 |
+                                                   GPIO_PIN_3));
+      
+      //
+      // Turn off the LED to indicate that the pins are in GPIO mode.
+      //
+      ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1,
+                       GPIO_PIN_1);
+    }
+  }
 }
 
 //*****************************************************************************
@@ -189,27 +190,27 @@ SysTickIntHandler(void)
 void
 ConfigureUART(void)
 {
-    //
-    // Enable the GPIO Peripheral used by the UART.
-    //
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-
-    //
-    // Enable UART2
-    //
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART2);
-
-    //
-    // Configure GPIO Pins for UART mode.
-    //
-    ROM_GPIOPinConfigure(GPIO_PD4_U2RX);
-    ROM_GPIOPinConfigure(GPIO_PD5_U2TX);
-    ROM_GPIOPinTypeUART(GPIO_PORTD_BASE, GPIO_PIN_4 | GPIO_PIN_5);
-
-    //
-    // Initialize the UART for console I/O.
-    //
-    UARTStdioConfig(2, 115200, g_ui32SysClock);
+  //
+  // Enable the GPIO Peripheral used by the UART.
+  //
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+  
+  //
+  // Enable UART2
+  //
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART2);
+  
+  //
+  // Configure GPIO Pins for UART mode.
+  //
+  ROM_GPIOPinConfigure(GPIO_PD4_U2RX);
+  ROM_GPIOPinConfigure(GPIO_PD5_U2TX);
+  ROM_GPIOPinTypeUART(GPIO_PORTD_BASE, GPIO_PIN_4 | GPIO_PIN_5);
+  
+  //
+  // Initialize the UART for console I/O.
+  //
+  UARTStdioConfig(2, 115200, g_ui32SysClock);
 }
 
 //*****************************************************************************
@@ -221,91 +222,93 @@ ConfigureUART(void)
 int
 main(void)
 {
-    //uint32_t ui32Mode;
+  //uint32_t ui32Mode;
   uint8_t data[8]={0xff , 0xee, 0xdd, 0xcc, 0xbb, 0xaa, 0x00, 0x99};
-    //
-    // Set the clocking to run directly from the crystal at 120MHz.
-    //
-    g_ui32SysClock = MAP_SysCtlClockFreqSet((SYSCTL_XTAL_25MHZ |
-                                             SYSCTL_OSC_MAIN |
+  //
+  // Set the clocking to run directly from the crystal at 120MHz.
+  //
+  g_ui32SysClock = MAP_SysCtlClockFreqSet((SYSCTL_XTAL_25MHZ |
+                                           SYSCTL_OSC_MAIN |
                                              SYSCTL_USE_PLL |
-                                             SYSCTL_CFG_VCO_480), 120000000);
-    //
-    // Enable the peripherals used by this application.
-    //
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPION);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-
-
-    //
-    // Initialize the button driver.
-    //
-    //ButtonsInit();
-
-    //
-    // Set up a SysTick Interrupt to handle polling and debouncing for our
-    // buttons.
-    //
-    //SysTickPeriodSet(g_ui32SysClock / 100);
-    //SysTickIntEnable();
-    //SysTickEnable();
-
-    // Init CAN0 
-    InitCAN();
-
+                                               SYSCTL_CFG_VCO_480), 120000000);
+  //
+  // Enable the peripherals used by this application.
+  //
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPION);
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+  ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+  
+  
+  //
+  // Initialize the button driver.
+  //
+  //ButtonsInit();
+  
+  //
+  // Set up a SysTick Interrupt to handle polling and debouncing for our
+  // buttons.
+  //
+  //SysTickPeriodSet(g_ui32SysClock / 100);
+  //SysTickIntEnable();
+  //SysTickEnable();
+  
+  // Init CAN0 
+  InitCAN(500000);
+  
+  
+  IntMasterEnable();
+  
+  //
+  // Configure the LEDs as outputs and turn them on in the JTAG state.
+  //
+  ROM_GPIOPinTypeGPIOOutput(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+  ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0);
+  
+  //
+  // Initialize the UART, clear the terminal, print banner.
+  //
+  ConfigureUART();
+  UARTprintf("\033[2J\033[H");
+  UARTprintf("GPIO <-> JTAG\n");
+  
+  //
+  // Indicate that the pins start out as JTAG.
+  //
+  UARTprintf("%d\n", g_ui32SysClock);
+  
+  InitCANTxMsg(0x0201, data, 3);
+  InitCANRxMsg(0x0202);
+  //
+  // Loop forever.  This loop simply exists to display on the UART the
+  // current state of PC0-3; the handling of changing the JTAG pins to and
+  // from GPIO mode is done in GPIO Interrupt Handler.
+  
+  ReceiveCANMsg();
     
-    IntMasterEnable();
-
-    //
-    // Configure the LEDs as outputs and turn them on in the JTAG state.
-    //
-    ROM_GPIOPinTypeGPIOOutput(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1);
-    ROM_GPIOPinWrite(GPIO_PORTN_BASE, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0);
-
-    //
-    // Initialize the UART, clear the terminal, print banner.
-    //
-    ConfigureUART();
-    UARTprintf("\033[2J\033[H");
-    UARTprintf("GPIO <-> JTAG\n");
-
-    //
-    // Indicate that the pins start out as JTAG.
-    //
-    UARTprintf("%d\n", g_ui32SysClock);
+  //
+  while(1)
+  {
     
-    InitCANMsg(0x0201, data, 3);
-
     //
-    // Loop forever.  This loop simply exists to display on the UART the
-    // current state of PC0-3; the handling of changing the JTAG pins to and
-    // from GPIO mode is done in GPIO Interrupt Handler.
+    // Now wait 1 second before continuing
     //
-    while(1)
+    //UARTprintf("-->\n");
+    //SimpleDelay();
+    
+    //SendCANMsg();
+    
+    if(g_bErrFlag)
     {
-
-        //
-        // Now wait 1 second before continuing
-        //
-        UARTprintf("-->\n");
-        SimpleDelay();
-        
-        SendCANMsg();
-        
-        if(g_bErrFlag)
-        {
-          UARTprintf(" error - cable connected?\n");
-        }
-        else
-        {
-          //
-          // If no errors then print the count of message sent
-          //
-          UARTprintf(" total count = %u\n", g_ui32MsgCount);
-        }
-        
+      UARTprintf(" error - cable connected?\n");
     }
+    
+    if(g_bRXFlag)
+    {
+      UARTprintf(" Message received\n");
+      HandleCANMsgRx();
+    }
+    
+  }
 }
