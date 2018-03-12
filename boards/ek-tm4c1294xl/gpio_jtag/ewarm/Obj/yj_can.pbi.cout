@@ -1,4 +1,4 @@
-"D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\drivers\yj_can.c"
+"D:\ti\TivaWare_C_Series-2.1.4.178-short\examples\boards\ek-tm4c1294xl\gpio_jtag\yj_can.c"
 -std=c99
 -ferror-limit=100
 -I

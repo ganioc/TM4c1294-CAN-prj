@@ -2,20 +2,48 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>1927318200</fileChecksum>
+  <fileChecksum>1229458575</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\uart.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\systick.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\interrupt.h</file>
+      <file>$PROJ_DIR$\ewarm\Obj\buttons.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+      <file>$PROJ_DIR$\ewarm\Obj\startup_ewarm.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\gpio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\rom_map.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\sysctl.h</file>
+      <file>$PROJ_DIR$\ewarm\Obj\gpio_jtag.pbi</file>
+      <file>$PROJ_DIR$\ewarm\Exe\gpio_jtag.bin</file>
+      <file>$PROJ_DIR$\ewarm\Obj\uartstdio.pbi</file>
+      <file>$PROJ_DIR$\ewarm\Obj\startup_ewarm.pbi</file>
+      <file>$PROJ_DIR$\ewarm\Obj\uartstdio.o</file>
+      <file>$PROJ_DIR$\ewarm\Obj\buttons.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\inc\hw_can.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\can.h</file>
+      <file>$PROJ_DIR$\..\drivers\yj_can.h</file>
+      <file>$PROJ_DIR$\ewarm\Obj\yj_can.pbi</file>
+      <file>$PROJ_DIR$\ewarm\Obj\yj_can.o</file>
+      <file>$PROJ_DIR$\gpio_jtag.c</file>
+      <file>$PROJ_DIR$\startup_ewarm.c</file>
+      <file>$PROJ_DIR$\..\drivers\buttons.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\driverlib\ewarm\Exe\driverlib.a</file>
+      <file>$PROJ_DIR$\..\..\..\..\utils\uartstdio.c</file>
+      <file>$PROJ_DIR$\..\drivers\yj_can.c</file>
       <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
       <file>$PROJ_DIR$\ewarm\List\gpio_jtag.map</file>
       <file>$PROJ_DIR$\gpio_jtag.icf</file>
-      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
-      <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
-      <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
       <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\inc\hw_memmap.h</file>
       <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\inc\hw_memmap.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+      <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
       <file>$PROJ_DIR$\..\drivers\buttons.h</file>
       <file>$PROJ_DIR$\..\..\..\..\driverlib\rom.h</file>
       <file>$PROJ_DIR$\..\..\..\..\inc\hw_types.h</file>
@@ -31,103 +59,34 @@
       <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
       <file>$PROJ_DIR$\..\..\..\..\utils\uartstdio.h</file>
       <file>$PROJ_DIR$\..\..\..\..\driverlib\debug.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\systick.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\interrupt.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\uart.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\ewarm\Exe\driverlib.a</file>
-      <file>$PROJ_DIR$\..\drivers\buttons.c</file>
-      <file>$PROJ_DIR$\gpio_jtag.c</file>
-      <file>$PROJ_DIR$\startup_ewarm.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\utils\uartstdio.c</file>
-      <file>$PROJ_DIR$\ewarm\Obj\buttons.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
-      <file>$PROJ_DIR$\ewarm\Obj\startup_ewarm.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\gpio.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\rom_map.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\sysctl.h</file>
-      <file>$PROJ_DIR$\ewarm\Obj\gpio_jtag.pbi</file>
-      <file>$PROJ_DIR$\ewarm\Exe\gpio_jtag.bin</file>
-      <file>$PROJ_DIR$\ewarm\Obj\uartstdio.pbi</file>
-      <file>$PROJ_DIR$\ewarm\Obj\startup_ewarm.pbi</file>
-      <file>$PROJ_DIR$\ewarm\Obj\uartstdio.o</file>
       <file>$PROJ_DIR$\ewarm\Obj\gpio_jtag.o</file>
-      <file>$PROJ_DIR$\ewarm\Obj\buttons.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\inc\hw_can.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\driverlib\can.h</file>
-      <file>$PROJ_DIR$\..\drivers\yj_can.h</file>
-      <file>$PROJ_DIR$\ewarm\Obj\yj_can.pbi</file>
-      <file>$PROJ_DIR$\ewarm\Obj\yj_can.o</file>
-      <file>$PROJ_DIR$\..\drivers\yj_can.c</file>
+      <file>$PROJ_DIR$\yj_can.c</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 19 1</file>
+          <file> 47 29</file>
         </tool>
       </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\ewarm\Exe\gpio_jtag.out</name>
-      <outputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 1</file>
-        </tool>
-        <tool>
-          <name>OBJCOPY</name>
-          <file> 41</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 2 33 28 45 35 44 52 0 5 4 3</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\drivers\buttons.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 46</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 33</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 14 16 15 17 13 12 11 10 9 8 39 38 37 7 6 47 36 34</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\gpio_jtag.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 40</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 45</file>
+          <file> 10</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 23 13 37 8 38 17 24 14 25 50 15 16 9 34 20 12 21 26 11 39 27 10 7 6 47 36 22</file>
+          <file> 51 41 7 33 8 45 52 42 1 19 43 44 32 4 48 40 49 2 39 9 0 38 31 34 16 6 50</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 9 13 15 7 47 36 6 16 34 17 20 8 12 24 21 37 26 14 11 38 39 25 27 23 10 50</file>
+          <file> 32 41 43 31 16 6 34 44 4 45 48 33 40 52 49 7 2 42 39 8 9 1 0 51 38</file>
         </tool>
       </inputs>
     </file>
@@ -136,24 +95,43 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 43</file>
+          <file> 13</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 35</file>
+          <file> 5</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\drivers\buttons.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 3</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 42 44 43 45 41 40 39 38 32 33 9 8 7 31 34 16 6 4</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\utils\uartstdio.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 42</file>
+          <file> 12</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 44</file>
+          <file> 14</file>
         </tool>
       </outputs>
     </file>
@@ -162,24 +140,66 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 51</file>
+          <file> 20</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 52</file>
+          <file> 21</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 26 13 20 34 49 39 9 15 16 48 8 37 14 23 7 6 47 36 50 22</file>
+          <file> 2 41 48 4 18 9 32 43 44 17 33 7 42 51 31 34 16 6 19 50</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 50 9 13 15 7 47 36 6 16 34 48 20 8 49 37 26 14 39 23</file>
+          <file> 19 32 41 43 31 16 6 34 44 4 17 48 33 18 7 2 42 9 51</file>
         </tool>
       </inputs>
     </file>
+    <file>
+      <name>$PROJ_DIR$\ewarm\Exe\gpio_jtag.out</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 29</file>
+        </tool>
+        <tool>
+          <name>OBJCOPY</name>
+          <file> 11</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 30 3 25 53 5 14 21 28 35 36 37</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\yj_can.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 21</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 44 43 2 41 48 4 18 9 32 17 33 7 42 51 31 34 16 6 50</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
   </configuration>
 </project>
 

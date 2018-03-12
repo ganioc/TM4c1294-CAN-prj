@@ -41,7 +41,7 @@
 #include "utils/uartstdio.h"
 #include "drivers/buttons.h"
 
-#include "drivers/yj_can.h"
+#include "yj_can.h"
 
 //*****************************************************************************
 //
